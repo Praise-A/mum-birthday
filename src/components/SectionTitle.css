@@ -1,0 +1,11 @@
+.section-heading { max-width: 760px; }
+
+.section-title {
+  font-size: clamp(2.7rem, 5vw, 4.2rem);
+  line-height: 1.02;
+}
+
+.section-description {
+  max-width: 640px;
+  margin-top: 12px;
+}

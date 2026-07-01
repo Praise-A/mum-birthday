@@ -1,0 +1,24 @@
+[
+  {
+    "id": "welcome-uche",
+    "name": "Uche",
+    "relationship": "Family friend",
+    "category": "Wish",
+    "message": "Wishing you more strength, more joy, and many beautiful years ahead. Your kindness has blessed more people than you know.",
+    "imageUrl": "",
+    "imageName": "",
+    "status": "approved",
+    "createdAt": "2026-06-11T10:15:00.000Z"
+  },
+  {
+    "id": "welcome-praise",
+    "name": "Praise",
+    "relationship": "Son",
+    "category": "Memory",
+    "message": "Happy birthday Mum. Thank you for making our home a place of prayer, laughter, and peace. We are all standing taller because of your love.",
+    "imageUrl": "",
+    "imageName": "",
+    "status": "approved",
+    "createdAt": "2026-06-11T10:00:00.000Z"
+  }
+]

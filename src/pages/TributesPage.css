@@ -1,0 +1,114 @@
+.tribute-form-card--wide { grid-column: 1 / -1; }
+
+.tribute-form-card {
+  padding: 36px;
+  border: 1px solid rgba(126, 88, 52, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.tribute-form-card__intro {
+  margin-bottom: 24px;
+}
+
+.tribute-form-card__count {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+.tribute-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+  gap: 20px;
+}
+
+.tribute-form label,
+.admin-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tribute-form span,
+.admin-form span {
+  color: var(--color-green);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.tribute-form input,
+.tribute-form textarea,
+.tribute-form select,
+.admin-form input,
+.admin-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(126, 88, 52, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  transition: border-color 0.25s, box-shadow 0.25s, background-color 0.25s;
+  font-size: 0.95rem;
+  color: var(--color-ink);
+}
+
+.tribute-form input:focus,
+.tribute-form textarea:focus,
+.tribute-form select:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 4px rgba(200, 162, 75, 0.15);
+  background: #ffffff;
+  outline: none;
+}
+
+.tribute-form input[type="file"] {
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.tribute-form input[type="file"]::file-selector-button {
+  background: var(--color-paper);
+  border: 1px solid rgba(126, 88, 52, 0.2);
+  color: var(--color-ink);
+  border-radius: 12px;
+  padding: 6px 12px;
+  margin-right: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.tribute-form input[type="file"]::file-selector-button:hover {
+  background: rgba(126, 88, 52, 0.08);
+  border-color: rgba(126, 88, 52, 0.35);
+}
+
+.tribute-form__full { grid-column: 1 / -1; }
+.tribute-form__actions { display: flex; align-items: center; gap: 20px; }
+.tribute-form__feedback,
+.tribute-form-card__count { color: var(--color-purple); }
+
+.category-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: rgba(200, 162, 75, 0.08);
+  color: var(--color-accent);
+  border: 1px solid rgba(200, 162, 75, 0.2);
+}
+
+.tribute-card__image { 
+  width: 100%; 
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 18px; 
+  margin-top: 16px; 
+  border: 1px solid var(--border-soft);
+}
+

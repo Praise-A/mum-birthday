@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #1e2e27;
+  background: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color-white: #ffffff;
+  --color-paper: #f8f8fb;
+  --color-paper-strong: #ffffff;
+  --color-ink: #1e2e27;
+  --color-muted: #55615b;
+  --color-gold: #cb9f2f;
+  --color-purple: #6b3fa0;
+  --color-green: #277a54;
+  --color-lilac: #9c66d6;
+  --color-sage: #d8ebe0;
+  --color-blush: #f1e2d1;
+  --color-plum: #4a2875;
+  --color-deep: rgba(40, 33, 52, 0.96);
+
+  --border-soft: rgba(46, 63, 55, 0.12);
+  --border-accent: rgba(107, 63, 160, 0.24);
+  --border-gold: rgba(203, 159, 47, 0.28);
+
+  --shadow-soft: 0 24px 60px rgba(42, 38, 58, 0.08);
+  --shadow-card: 0 18px 40px rgba(39, 33, 56, 0.08);
+
+  /* Semantic surface colours — used for section backgrounds */
+  --surface-lilac: rgba(156, 102, 214, 0.18);
+  --surface-sage: rgba(39, 122, 84, 0.12);
+  --surface-gold: rgba(203, 159, 47, 0.14);
+  --surface-blush: rgba(241, 226, 209, 0.5);
+  --surface-cream: rgba(255, 255, 255, 0.8);
+}

@@ -1,0 +1,482 @@
+.page,
+.collection-page {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 3vw, 40px);
+}
+
+.paper-card {
+  border: 1px solid var(--border-soft);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-soft);
+}
+
+.scrap-card {
+  border: 1px solid rgba(200, 162, 75, 0.2);
+  border-radius: 28px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(248, 250, 252, 0.94)
+  );
+  box-shadow: var(--shadow-card);
+  transform: none;
+}
+
+.section-shell {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(24px, 3vw, 36px);
+}
+
+.hero-layout,
+.collection-hero,
+.split-section,
+.gallery-preview-grid,
+.content-grid,
+.timeline-grid,
+.stats-grid,
+.collection-grid,
+.hero-sidebar,
+.photo-slot-grid,
+.music-grid,
+.admin-counts,
+.tribute-form,
+.admin-form {
+  display: grid;
+  gap: 16px;
+}
+
+.hero-layout,
+.collection-hero,
+.split-section {
+  align-items: start;
+}
+
+.hero-layout,
+.collection-hero,
+.split-section--tribute {
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+}
+
+.split-section--balanced {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stats-grid,
+.timeline-grid,
+.content-grid--three,
+.tribute-grid,
+.collection-grid,
+.photo-slot-grid,
+.music-grid,
+.admin-counts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.button-row,
+.section-header-row,
+.tribute-card__header,
+.hero-prayer-card__meta,
+.spotlight-card__meta,
+.voices-column__meta,
+.timeline-card__meta,
+.admin-submission-card__header,
+.admin-submission-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-header-row,
+.tribute-card__header,
+.admin-submission-card__header,
+.admin-submission-card__actions {
+  justify-content: space-between;
+}
+
+.section-header-row {
+  flex-wrap: wrap;
+}
+
+.hero-content,
+.hero-copy,
+.featured-memory__body,
+.content-card,
+.collection-note,
+.voice-card,
+.quote-stack,
+.voice-list,
+.prayer-column,
+.voices-column,
+.tribute-card,
+.gallery-card,
+.spotlight-card,
+.music-card,
+.music-card__body,
+.admin-submission-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hero-eyebrow,
+.section-eyebrow,
+.content-tag,
+.content-meta,
+.timeline-card__meta,
+.collection-note__link,
+.hero-prayer-card__meta,
+.spotlight-card__meta,
+.voices-column__meta,
+.hero-date-chip {
+  margin: 0;
+  color: var(--color-purple);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.hero-title,
+.section-title,
+.content-title,
+.featured-memory__title,
+.hero-prayer-card__quote,
+.spotlight-card__title,
+.voices-column__title,
+.quote-card__text,
+.stat-card__value,
+.tribute-card__name {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  color: var(--color-ink);
+}
+
+.hero-description,
+.section-description,
+.content-body,
+.featured-memory__text,
+.spotlight-card__text,
+.voices-column__text,
+.collection-note p,
+.music-card__body p,
+.admin-form__feedback,
+.tribute-form__feedback {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.content-title,
+.voices-column__title,
+.spotlight-card__title,
+.quote-card__text,
+.tribute-card__name {
+  font-size: 2.2rem;
+  line-height: 1.05;
+}
+
+.content-card,
+.timeline-card,
+.tribute-card,
+.voice-card,
+.gallery-card,
+.quote-card,
+.music-card,
+.admin-submission-card {
+  padding: 24px;
+}
+
+.content-quote {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 1px solid rgba(110, 71, 135, 0.24);
+  color: var(--color-ink);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--color-purple), var(--color-green));
+  color: var(--color-white);
+  box-shadow: 0 16px 32px rgba(107, 63, 160, 0.22);
+}
+
+.secondary-button {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(107, 63, 160, 0.16);
+  color: var(--color-ink);
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.ink-link:hover,
+.ink-link:focus-visible,
+.collection-note__link:hover,
+.collection-note__link:focus-visible {
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.ink-link,
+.collection-note__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  color: var(--color-green);
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/*
+  THEME COLOUR PATCHES
+  Drop these at the END of shared.css (or into a separate theme-overrides.css
+  imported after shared.css). They strengthen gold/purple/green usage across
+  all shared components.
+*/
+
+/* ── scrap-card: gold border, not the pale default ── */
+.scrap-card {
+  border-color: rgba(200, 162, 75, 0.28);
+}
+
+/* ── paper-card: hint of warm white, gold border ── */
+.paper-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(107, 63, 160, 0.12);
+}
+
+/* ── section eyebrow / tags: proper purple, not washed ── */
+.hero-eyebrow,
+.section-eyebrow,
+.content-tag {
+  color: var(--color-purple);
+  font-weight: 600;
+}
+
+/* ── content-meta: gold instead of muted grey ── */
+.content-meta {
+  color: var(--color-gold);
+}
+
+/* ── content-quote: purple left border ── */
+.content-quote {
+  border-left-color: var(--color-purple);
+  color: var(--color-purple);
+  font-style: italic;
+}
+
+/* ── ink-link: gold on hover, green default ── */
+.ink-link {
+  color: var(--color-green);
+  font-weight: 600;
+}
+.ink-link:hover {
+  color: var(--color-gold);
+}
+
+/* ── collection-note sidebar: full purple-to-green gradient ── */
+.collection-note {
+  background: linear-gradient(160deg, var(--color-purple), var(--color-green));
+}
+
+/* ── primary-button: gold accent on hover ── */
+.primary-button:hover {
+  box-shadow: 0 18px 36px rgba(107, 63, 160, 0.28);
+}
+
+/* ── secondary-button: gold border ── */
+.secondary-button {
+  border-color: rgba(107, 63, 160, 0.16);
+}
+
+/* ── category-pill: gold background ── */
+.category-pill {
+  background: rgba(200, 162, 75, 0.16);
+  color: var(--color-purple);
+  font-weight: 600;
+}
+
+/* ── timeline-card meta: gold year label ── */
+.timeline-card__meta {
+  color: var(--color-gold);
+}
+
+/* ── section backgrounds: use the sage/lilac surface tokens ── */
+.home-stories-section,
+.home-purpose-section {
+  background: linear-gradient(
+    180deg,
+    rgba(156, 102, 214, 0.16) 0%,
+    rgba(39, 122, 84, 0.1) 100%
+  );
+  border-color: var(--border-accent);
+}
+
+.home-tributes-section,
+.home-timeline-section {
+  background: linear-gradient(
+    180deg,
+    rgba(203, 159, 47, 0.14) 0%,
+    rgba(255, 255, 255, 0.78) 100%
+  );
+  border-color: var(--border-gold);
+}
+
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(200, 162, 75, 0.18);
+  color: var(--color-purple);
+  font-size: 0.65rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.category-pill--approved {
+  background: rgba(47, 106, 79, 0.14);
+  color: var(--color-green);
+}
+.category-pill--pending {
+  background: rgba(200, 162, 75, 0.16);
+  color: var(--color-gold);
+}
+.category-pill--rejected {
+  background: rgba(110, 71, 135, 0.14);
+  color: var(--color-purple);
+}
+
+.icon-xs {
+  width: 16px;
+  height: 16px;
+}
+.icon-sm {
+  width: 20px;
+  height: 20px;
+}
+.icon-md {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 1120px) {
+  .hero-layout,
+  .collection-hero,
+  .split-section--tribute,
+  .split-section--balanced,
+  .stats-grid,
+  .timeline-grid,
+  .content-grid--three,
+  .tribute-grid,
+  .collection-grid,
+  .photo-slot-grid,
+  .music-grid,
+  .admin-counts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .button-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .content-title,
+  .voices-column__title,
+  .spotlight-card__title,
+  .quote-card__text,
+  .tribute-card__name {
+    font-size: 1.95rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .hero-layout,
+  .collection-hero,
+  .split-section--tribute,
+  .split-section--balanced,
+  .stats-grid,
+  .timeline-grid,
+  .content-grid--three,
+  .tribute-grid,
+  .collection-grid,
+  .photo-slot-grid,
+  .music-grid,
+  .admin-counts,
+  .tribute-form,
+  .admin-form {
+    grid-template-columns: 1fr;
+  }
+
+  .section-shell,
+  .paper-card,
+  .scrap-card {
+    border-radius: 24px;
+  }
+
+  .section-shell {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .section-shell,
+  .paper-card,
+  .scrap-card {
+    border-radius: 22px;
+  }
+
+  .section-shell {
+    padding: 20px;
+  }
+
+  .hero-eyebrow,
+  .section-eyebrow,
+  .content-tag,
+  .content-meta,
+  .timeline-card__meta,
+  .collection-note__link,
+  .hero-prayer-card__meta,
+  .spotlight-card__meta,
+  .voices-column__meta,
+  .hero-date-chip {
+    letter-spacing: 0.18em;
+  }
+}
