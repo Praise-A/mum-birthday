@@ -1,6 +1,4 @@
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import { createClient } from "@sanity/client";
 
 export type SubmissionStatus = "pending" | "approved" | "rejected";
 
@@ -16,63 +14,158 @@ export type SubmissionRecord = {
   createdAt: string;
 };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const submissionsFilePath = path.join(__dirname, "..", "data", "submissions.json");
+type SubmissionImageInput = {
+  buffer: Buffer;
+  mimeType: string;
+  filename: string;
+};
 
-async function ensureStore() {
-  await fs.mkdir(path.dirname(submissionsFilePath), { recursive: true });
+function getSanityConfig() {
+  return {
+    projectId: process.env.SANITY_PROJECT_ID || "o9lfog76",
+    dataset: process.env.SANITY_DATASET || "production",
+    apiVersion: process.env.SANITY_API_VERSION || "2025-07-01",
+    token: process.env.SANITY_AUTH_TOKEN || "",
+  };
+}
 
-  try {
-    await fs.access(submissionsFilePath);
-  } catch {
-    await fs.writeFile(submissionsFilePath, "[]", "utf8");
+function getSanityClient() {
+  const { projectId, dataset, apiVersion, token } = getSanityConfig();
+
+  if (!projectId || !dataset || !token) {
+    throw new Error(
+      "Tribute submissions are not configured yet. Add a valid SANITY_AUTH_TOKEN in the root .env file and restart the API server.",
+    );
   }
+
+  return createClient({
+    projectId,
+    dataset,
+    apiVersion,
+    token,
+    useCdn: false,
+  });
 }
 
-export async function readSubmissions(): Promise<SubmissionRecord[]> {
-  await ensureStore();
-  const raw = await fs.readFile(submissionsFilePath, "utf8");
-  const parsed = JSON.parse(raw || "[]") as SubmissionRecord[];
-
-  return parsed.sort(
-    (left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime(),
-  );
-}
-
-export async function writeSubmissions(submissions: SubmissionRecord[]): Promise<void> {
-  await ensureStore();
-  await fs.writeFile(submissionsFilePath, JSON.stringify(submissions, null, 2), "utf8");
+function mapTributeDocument(entry: {
+  _id: string;
+  name?: string;
+  relationship?: string;
+  category?: string;
+  message?: string;
+  imageName?: string;
+  status?: SubmissionStatus;
+  createdAt?: string;
+  imageUrl?: string;
+}): SubmissionRecord {
+  return {
+    id: entry._id,
+    name: entry.name || "Guest",
+    relationship: entry.relationship || "Guest",
+    category: entry.category || "Goodwill",
+    message: entry.message || "",
+    imageUrl: entry.imageUrl || "",
+    imageName: entry.imageName || "",
+    status: entry.status || "pending",
+    createdAt: entry.createdAt || new Date().toISOString(),
+  };
 }
 
 export async function createSubmission(
   input: Omit<SubmissionRecord, "id" | "status" | "createdAt">,
+  image?: SubmissionImageInput,
 ): Promise<SubmissionRecord> {
-  const submissions = await readSubmissions();
-  const submission: SubmissionRecord = {
-    ...input,
-    id: `sub-${Date.now()}`,
-    status: "pending",
-    createdAt: new Date().toISOString(),
-  };
+  const client = getSanityClient();
+  const createdAt = new Date().toISOString();
+  let imageField = undefined;
 
-  submissions.unshift(submission);
-  await writeSubmissions(submissions);
-  return submission;
+  if (image) {
+    const asset = await client.assets.upload("image", image.buffer, {
+      contentType: image.mimeType,
+      filename: image.filename,
+    });
+
+    imageField = {
+      _type: "image",
+      asset: {
+        _type: "reference",
+        _ref: asset._id,
+      },
+    };
+  }
+
+  const created = await client.create({
+    _type: "tribute",
+    name: input.name,
+    relationship: input.relationship,
+    category: input.category,
+    message: input.message,
+    imageName: input.imageName || "",
+    createdAt,
+    status: "pending",
+    image: imageField,
+  });
+
+  return mapTributeDocument({
+    _id: created._id,
+    ...input,
+    status: "pending",
+    createdAt,
+    imageUrl: "",
+  });
+}
+
+export async function readSubmissions(): Promise<SubmissionRecord[]> {
+  const client = getSanityClient();
+  const entries = await client.fetch(
+    `*[_type == "tribute"] | order(coalesce(createdAt, _createdAt) desc) {
+      _id,
+      name,
+      relationship,
+      category,
+      message,
+      imageName,
+      status,
+      createdAt,
+      "imageUrl": coalesce(image.asset->url, externalImageUrl)
+    }`,
+  );
+
+  return Array.isArray(entries) ? entries.map(mapTributeDocument) : [];
 }
 
 export async function updateSubmissionStatus(
   id: string,
   status: SubmissionStatus,
 ): Promise<SubmissionRecord | null> {
-  const submissions = await readSubmissions();
-  const submission = submissions.find((entry) => entry.id === id);
+  const client = getSanityClient();
 
-  if (!submission) {
+  try {
+    await client
+      .patch(id)
+      .set({
+        status,
+        approvedAt: status === "approved" ? new Date().toISOString() : null,
+      })
+      .commit();
+  } catch {
     return null;
   }
 
-  submission.status = status;
-  await writeSubmissions(submissions);
-  return submission;
+  const updated = await client.fetch(
+    `*[_id == $id][0]{
+      _id,
+      name,
+      relationship,
+      category,
+      message,
+      imageName,
+      status,
+      createdAt,
+      "imageUrl": coalesce(image.asset->url, externalImageUrl)
+    }`,
+    { id },
+  );
+
+  return updated ? mapTributeDocument(updated) : null;
 }

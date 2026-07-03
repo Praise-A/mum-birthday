@@ -2,20 +2,37 @@ import { useEffect, useState } from "react";
 import { X, ZoomIn } from "lucide-react";
 
 import CollectionPage from "@/components/CollectionPage.jsx";
-import { galleryItems } from "@/data/siteContent.js";
+import { galleryItems as fallbackGalleryItems } from "@/data/siteContent.js";
+import { fetchGalleryContent } from "@/lib/sanity/content.js";
 
 import "./GalleryPage.css";
 
 export default function GalleryPage() {
   const [activeImage, setActiveImage] = useState(null);
+  const [galleryItems, setGalleryItems] = useState(fallbackGalleryItems);
 
   useEffect(() => {
     function handleKeyDown(event) {
       if (event.key === "Escape") setActiveImage(null);
     }
+
     if (activeImage) window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeImage]);
+
+  useEffect(() => {
+    let alive = true;
+
+    fetchGalleryContent().then((items) => {
+      if (alive) {
+        setGalleryItems(items);
+      }
+    });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   return (
     <>

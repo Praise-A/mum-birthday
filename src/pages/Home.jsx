@@ -15,17 +15,22 @@ import SectionTitle from "@/components/SectionTitle.jsx";
 import {
   celebrantPhotoSlots,
   eventDetails,
-  fallbackTributes,
+  fallbackTributes as fallbackTributeItems,
+  galleryItems as fallbackGalleryItems,
   heartPlea,
   heroStats,
   journeyIntroduction,
   milestones,
   musicSelections,
   quoteCards,
-  stories,
+  stories as fallbackStories,
   voiceNotes,
 } from "@/data/siteContent.js";
-import { fetchPublicSubmissions } from "@/lib/api.js";
+import {
+  fetchApprovedTributesContent,
+  fetchGalleryContent,
+  fetchStoriesContent,
+} from "@/lib/sanity/content.js";
 
 import "./Home.css";
 
@@ -73,22 +78,59 @@ const celebrationHighlights = [
 ];
 
 export default function Home() {
-  const [approvedTributes, setApprovedTributes] = useState(fallbackTributes);
-  // All photo slots for gallery preview (full row)
-  const galleryPreviewPhotos = celebrantPhotoSlots;
-  const featuredStory = stories[0];
+  const [approvedTributes, setApprovedTributes] =
+    useState(fallbackTributeItems);
+  const [featuredStory, setFeaturedStory] = useState(fallbackStories[0]);
+  const [galleryPreviewPhotos, setGalleryPreviewPhotos] =
+    useState(celebrantPhotoSlots);
   const soundtrackPreview = musicSelections.slice(0, 2);
   const soundtrackDescription =
     "Worship and praise have always been part of her story. These songs were chosen to reflect the gratitude and joy that fill this celebration.";
 
   useEffect(() => {
     let alive = true;
-    fetchPublicSubmissions()
-      .then((payload) => {
-        if (!alive || !payload.submissions?.length) return;
-        setApprovedTributes(payload.submissions.slice(0, 3));
+
+    Promise.all([
+      fetchApprovedTributesContent(),
+      fetchStoriesContent(),
+      fetchGalleryContent(),
+    ])
+      .then(([tributes, stories, gallery]) => {
+        if (!alive) return;
+
+        if (tributes.length) {
+          setApprovedTributes(tributes.slice(0, 3));
+        }
+
+        if (stories.length) {
+          const featured = stories.find((s) => s.isFeatured) || stories[0];
+          setFeaturedStory(featured);
+        }
+
+        if (gallery.length) {
+          setGalleryPreviewPhotos(
+            gallery.slice(0, 5).map((item, index) => ({
+              id: item._id || item.title || `gallery-${index}`,
+              title: item.title,
+              caption: item.caption,
+              src: item.image,
+              aspect: index % 3 === 2 ? "landscape" : "portrait",
+            })),
+          );
+        } else if (fallbackGalleryItems.length) {
+          setGalleryPreviewPhotos(
+            fallbackGalleryItems.slice(0, 5).map((item, index) => ({
+              id: item.title,
+              title: item.title,
+              caption: item.caption,
+              src: item.image,
+              aspect: index % 3 === 2 ? "landscape" : "portrait",
+            })),
+          );
+        }
       })
       .catch(() => {});
+
     return () => {
       alive = false;
     };
@@ -148,7 +190,6 @@ export default function Home() {
             <div className="hero-copy">
               <p className="hero-eyebrow">{eventDetails.tagline}</p>
 
-              {/* Big celebratory title — matches the "Happy 50th Birthday" from the reference */}
               <div className="hero-banner-row">
                 <p className="home-stage__event">{eventDetails.title}</p>
                 <p className="hero-date-chip">{countdownLabel}</p>
@@ -165,7 +206,6 @@ export default function Home() {
                 beautiful journey
               </p>
 
-              {/* Prominent date pill */}
               <div className="hero-date-pill">
                 <CalendarCheck2 className="icon-xs" />
                 November 12th
@@ -235,48 +275,54 @@ export default function Home() {
           <div className="home-showcase-card__head">
             <p className="content-tag">Share Your Heart ♡</p>
           </div>
-          <p className="content-body">{celebrationHighlights[0].description}</p>
-          <div className="home-action-list">
-            {celebrationHighlights.map((item) => (
-              <article key={item.title} className="home-action-list__item">
-                <p className="home-action-list__title">{item.title}</p>
-                <p className="content-body">{item.description}</p>
-              </article>
-            ))}
+          <div className="home-showcase-card__body">
+            <p className="content-body">
+              {celebrationHighlights[0].description}
+            </p>
+            <div className="home-action-list">
+              {celebrationHighlights.map((item) => (
+                <article key={item.title} className="home-action-list__item">
+                  <p className="home-action-list__title">{item.title}</p>
+                  <p className="content-body">{item.description}</p>
+                </article>
+              ))}
+            </div>
+            <Link to="/tributes" className="primary-button">
+              Write a tribute
+              <HeartHandshake className="icon-xs" />
+            </Link>
           </div>
-          <Link to="/tributes" className="primary-button">
-            Write a tribute
-            <HeartHandshake className="icon-xs" />
-          </Link>
         </article>
 
         <article className="paper-card home-showcase-card">
           <div className="home-showcase-card__head home-showcase-card__head--center">
             <p className="content-tag">From the Blog</p>
           </div>
-          <div className="home-story-preview">
-            <div className="home-story-preview__image">
-              <img
-                src={celebrantPhotoSlots[2].src}
-                alt={celebrantPhotoSlots[2].title}
-                loading="lazy"
-              />
+          <div className="home-showcase-card__body">
+            <div className="home-story-preview">
+              <div className="home-story-preview__image">
+                <img
+                  src={celebrantPhotoSlots[2].src}
+                  alt={celebrantPhotoSlots[2].title}
+                  loading="lazy"
+                />
+              </div>
+              <div className="home-story-preview__body">
+                <p className="content-meta">{featuredStory?.tag}</p>
+                <h3 className="content-title home-story-preview__title">
+                  {featuredStory?.title}
+                </h3>
+                <p className="content-body">{featuredStory?.excerpt}</p>
+                <blockquote className="content-quote">
+                  {featuredStory?.pullQuote}
+                </blockquote>
+              </div>
             </div>
-            <div className="home-story-preview__body">
-              <p className="content-meta">{featuredStory.tag}</p>
-              <h3 className="content-title home-story-preview__title">
-                {featuredStory.title}
-              </h3>
-              <p className="content-body">{featuredStory.excerpt}</p>
-              <blockquote className="content-quote">
-                {featuredStory.pullQuote}
-              </blockquote>
-            </div>
+            <Link to="/blog" className="ink-link">
+              Read all stories
+              <ArrowRight className="icon-xs" />
+            </Link>
           </div>
-          <Link to="/blog" className="ink-link">
-            Read all stories
-            <ArrowRight className="icon-xs" />
-          </Link>
         </article>
 
         <article
@@ -286,22 +332,24 @@ export default function Home() {
           <div className="home-showcase-card__head">
             <p className="content-tag">Now Playing 🎵</p>
           </div>
-          <h3 className="content-title home-showcase-card__title">
-            Songs that carry the spirit of this season.
-          </h3>
-          <p className="content-body">{soundtrackDescription}</p>
-          <div className="home-track-list">
-            {soundtrackPreview.map((track) => (
-              <article key={track.title} className="home-track-item">
-                <div className="home-track-item__copy">
-                  <p className="home-track-item__title">{track.title}</p>
-                  <p className="content-meta">{track.artist}</p>
-                </div>
-                <a href={track.href} target="_blank" rel="noreferrer">
-                  <ArrowRight className="icon-xs" />
-                </a>
-              </article>
-            ))}
+          <div className="home-showcase-card__body">
+            <h3 className="content-title home-showcase-card__title">
+              Songs that carry the spirit of this season.
+            </h3>
+            <p className="content-body">{soundtrackDescription}</p>
+            <div className="home-track-list">
+              {soundtrackPreview.map((track) => (
+                <article key={track.title} className="home-track-item">
+                  <div className="home-track-item__copy">
+                    <p className="home-track-item__title">{track.title}</p>
+                    <p className="content-meta">{track.artist}</p>
+                  </div>
+                  <a href={track.href} target="_blank" rel="noreferrer">
+                    <ArrowRight className="icon-xs" />
+                  </a>
+                </article>
+              ))}
+            </div>
           </div>
         </article>
       </section>
@@ -388,7 +436,6 @@ export default function Home() {
 
       {/* ── GALLERY (full width) + TRIBUTES ────────── */}
       <section className="home-gallery-tributes">
-        {/* Gallery — now 100% wide, 5-column photo grid */}
         <article className="section-shell home-gallery-card">
           <div className="section-header-row">
             <SectionTitle
@@ -409,7 +456,6 @@ export default function Home() {
           </div>
         </article>
 
-        {/* Tributes — full width beneath gallery */}
         <article className="section-shell home-tributes-card">
           <div className="section-header-row">
             <SectionTitle

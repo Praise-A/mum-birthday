@@ -7,6 +7,8 @@
     "dev": "concurrently -k -n client,server -c green,blue \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "vite",
     "dev:server": "nodemon",
+    "start": "tsx api/server.ts",
+    "start:server": "tsx api/server.ts",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,6 +16,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@sanity/client": "^7.23.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "lucide-react": "^0.511.0",

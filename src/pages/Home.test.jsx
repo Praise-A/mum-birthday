@@ -27,7 +27,7 @@ describe("Home", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /fifty is almost here\./i,
+        name: /happy 50th birthday/i,
       }),
     ).toBeInTheDocument();
 
@@ -37,7 +37,7 @@ describe("Home", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(/cherished moment with the celebrant/i),
+        screen.getByText(/the way she made home feel larger than its walls/i),
       ).toBeInTheDocument();
     });
 
@@ -48,7 +48,7 @@ describe("Home", () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByText(/support 50 children through the straight child foundation/i),
+      screen.getByText(/help make this milestone a blessing for children/i),
     ).toBeInTheDocument();
 
     expect(
