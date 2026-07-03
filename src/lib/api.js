@@ -1,9 +1,11 @@
 /**
  * api.js — client-side API helpers
  *
- * All requests go to relative /api/* paths, so the same file
- * works in dev (Vite proxy) and production (same-origin server).
+ * Requests use Vite env configuration in production and keep
+ * relative /api/* paths in local development through the proxy.
  */
+
+import { getApiUrl } from "@/lib/config.js";
 
 async function parseResponse(response) {
   let payload;
@@ -29,13 +31,13 @@ async function parseResponse(response) {
 
 /** Fetch approved tributes for the public wall */
 export async function fetchPublicSubmissions() {
-  const response = await fetch("/api/submissions/public");
+  const response = await fetch(getApiUrl("/api/submissions/public"));
   return parseResponse(response);
 }
 
 /** Submit a new tribute/photo contribution */
 export async function submitContribution(formData) {
-  const response = await fetch("/api/submissions", {
+  const response = await fetch(getApiUrl("/api/submissions"), {
     method: "POST",
     body: formData,
     // Do NOT set Content-Type header — browser sets it with the correct
@@ -49,7 +51,7 @@ export async function fetchAdminSubmissions(adminKey, status = "all") {
   if (!adminKey) throw new Error("Admin key is required.");
 
   const response = await fetch(
-    `/api/admin/submissions?status=${encodeURIComponent(status)}`,
+    getApiUrl(`/api/admin/submissions?status=${encodeURIComponent(status)}`),
     {
       headers: { "x-admin-key": adminKey },
     },
@@ -63,7 +65,7 @@ export async function updateAdminSubmissionStatus(id, status, adminKey) {
   if (!id) throw new Error("Submission ID is required.");
 
   const response = await fetch(
-    `/api/admin/submissions/${encodeURIComponent(id)}`,
+    getApiUrl(`/api/admin/submissions/${encodeURIComponent(id)}`),
     {
       method: "PATCH",
       headers: {

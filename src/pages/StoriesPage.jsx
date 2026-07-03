@@ -1,7 +1,26 @@
+import { useEffect, useState } from "react";
+
 import CollectionPage from "@/components/CollectionPage.jsx";
-import { stories } from "@/data/siteContent.js";
+import { stories as fallbackStories } from "@/data/siteContent.js";
+import { fetchStoriesContent } from "@/lib/sanity/content.js";
 
 export default function StoriesPage() {
+  const [stories, setStories] = useState(fallbackStories);
+
+  useEffect(() => {
+    let alive = true;
+
+    fetchStoriesContent().then((items) => {
+      if (alive) {
+        setStories(items);
+      }
+    });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   return (
     <CollectionPage
       eyebrow="Blog archive"

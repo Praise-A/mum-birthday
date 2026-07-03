@@ -1,57 +1,148 @@
-# React + TypeScript + Vite
+# Mum Birthday Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project uses:
 
-Currently, two official plugins are available:
+- `React + Vite` for the public website
+- `Express` for public tribute submission and admin moderation
+- `Sanity` for content, uploaded tribute images, and tribute records
+- a separate Sanity Studio repo for content editing
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What Lives Where
 
-## Expanding the ESLint configuration
+- Public site code: `src/`
+- API server code: `api/`
+- Sanity Studio: separate repo
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Install
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Run these once from the project root:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## How To Run The App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Website + API
 
-export default tseslint.config({
-  extends: [
-    // other configs...
-    // Enable lint rules for React
-    reactX.configs['recommended-typescript'],
-    // Enable lint rules for React DOM
-    reactDom.configs.recommended,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm run dev
+```
+
+Runs:
+
+- frontend on `http://127.0.0.1:5173`
+- backend on `http://127.0.0.1:3001`
+
+### Website + API + Studio
+
+```bash
+npm run dev:all
+```
+
+Runs:
+
+- frontend on `http://127.0.0.1:5173`
+- backend on `http://127.0.0.1:3001`
+
+## How Tribute Storage Works
+
+- Visitor submissions go to the Express API
+- The API uploads any image to Sanity
+- The API creates a `tribute` document in Sanity with status `pending`
+- The admin page reads pending, approved, and rejected entries through the API
+- Approving a tribute changes its Sanity status to `approved`
+- The public site only reads tributes whose status is `approved`
+
+## What You Need To Create In Sanity
+
+Create:
+
+- one Sanity project
+- one dataset, usually `production`
+- one API token with write access
+
+Your separate Studio repo should define these Sanity content types:
+
+- `post`
+- `galleryItem`
+- `tribute`
+
+You do not need to manually create those schema types in the dashboard as long as the Studio repo contains the schemas.
+
+## How To Connect A Real Sanity Project
+
+### 1. Create the project
+
+Create it from the Sanity dashboard or CLI. The key things you need are:
+
+- `projectId`
+- dataset name, usually `production`
+
+### 2. Create a write token
+
+In Sanity:
+
+1. Open your project
+2. Go to `API`
+3. Open `Tokens`
+4. Create a token for this app
+5. Give it permissions that allow document writes and asset uploads
+
+Add that token to `.env`:
+
+```env
+SANITY_AUTH_TOKEN=your-token-here
+```
+
+### 3. Make frontend reads work
+
+Because the public site reads published content directly from Sanity in the browser:
+
+- keep the dataset readable by the frontend
+- add CORS origins for:
+  - `http://127.0.0.1:5173`
+  - `http://localhost:5173`
+  - your live frontend domain
+
+If your Sanity dataset is private, the current frontend will not be able to fetch posts, gallery items, and approved tributes directly.
+
+### 4. Fill the env values
+
+Use the same project id and dataset in these two groups:
+
+- `VITE_SANITY_*` for frontend reads
+- `SANITY_*` for backend writes and image uploads
+
+Configure the separate Studio repo with the same Sanity project id and dataset.
+
+## Production Notes
+
+### Build the frontend
+
+```bash
+npm run build
+```
+
+### Start the backend
+
+```bash
+npm start
+```
+
+### If frontend and API are on different domains
+
+Set:
+
+```env
+VITE_API_BASE_URL=https://your-api-domain.com
+```
+
+## Checks
+
+```bash
+npm run lint
+npm run test
+npm run check
+npm run build
 ```

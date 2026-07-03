@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 
 import CollectionPage from "@/components/CollectionPage.jsx";
 import { fallbackTributes } from "@/data/siteContent.js";
-import { fetchPublicSubmissions, submitContribution } from "@/lib/api.js";
+import { submitContribution } from "@/lib/api.js";
+import { fetchApprovedTributesContent } from "@/lib/sanity/content.js";
 
 import "./TributesPage.css";
 
@@ -21,10 +22,10 @@ export default function TributesPage() {
   const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
-    fetchPublicSubmissions()
-      .then((payload) => {
-        if (payload.submissions?.length) {
-          setApprovedTributes(payload.submissions);
+    fetchApprovedTributesContent()
+      .then((items) => {
+        if (items.length) {
+          setApprovedTributes(items);
         }
       })
       .catch(() => {});
@@ -142,7 +143,7 @@ export default function TributesPage() {
               type="submit"
               disabled={submitting}
             >
-              {submitting ? "Sending..." : "Submit for approval"}
+              {submitting ? "Sending..." : "Submit"}
             </button>
             {feedback && <p className="tribute-form__feedback">{feedback}</p>}
           </div>

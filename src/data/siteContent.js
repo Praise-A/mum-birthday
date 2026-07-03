@@ -94,6 +94,7 @@ export const stories = [
     pullQuote:
       "She never needed grand speeches to lead us. A hot meal and a listening ear were enough.",
     tag: "Family memory",
+    isFeatured: true,
   },
   {
     slug: "her-elegance-in-hard-seasons",
@@ -103,6 +104,7 @@ export const stories = [
     pullQuote:
       "Even in difficult years, she dressed hope in dignity and kept showing up.",
     tag: "Legacy note",
+    isFeatured: false,
   },
   {
     slug: "laughter-after-sunday-lunch",
@@ -112,6 +114,7 @@ export const stories = [
     pullQuote:
       "If joy had a dining table, Mum would be the one calling everyone to sit closer.",
     tag: "Scrapbook moment",
+    isFeatured: false,
   },
 ];
 

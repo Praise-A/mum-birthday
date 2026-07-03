@@ -249,25 +249,17 @@
   text-transform: uppercase;
 }
 
-/*
-  THEME COLOUR PATCHES
-  Drop these at the END of shared.css (or into a separate theme-overrides.css
-  imported after shared.css). They strengthen gold/purple/green usage across
-  all shared components.
-*/
-
-/* ── scrap-card: gold border, not the pale default ── */
+/* scrap-card: gold border */
 .scrap-card {
   border-color: rgba(200, 162, 75, 0.28);
 }
 
-/* ── paper-card: hint of warm white, gold border ── */
+/* paper-card: warm white gold border */
 .paper-card {
   background: rgba(255, 255, 255, 0.92);
   border-color: rgba(107, 63, 160, 0.12);
 }
 
-/* ── section eyebrow / tags: proper purple, not washed ── */
 .hero-eyebrow,
 .section-eyebrow,
 .content-tag {
@@ -275,19 +267,16 @@
   font-weight: 600;
 }
 
-/* ── content-meta: gold instead of muted grey ── */
 .content-meta {
   color: var(--color-gold);
 }
 
-/* ── content-quote: purple left border ── */
 .content-quote {
   border-left-color: var(--color-purple);
   color: var(--color-purple);
   font-style: italic;
 }
 
-/* ── ink-link: gold on hover, green default ── */
 .ink-link {
   color: var(--color-green);
   font-weight: 600;
@@ -296,34 +285,32 @@
   color: var(--color-gold);
 }
 
-/* ── collection-note sidebar: full purple-to-green gradient ── */
 .collection-note {
   background: linear-gradient(160deg, var(--color-purple), var(--color-green));
 }
 
-/* ── primary-button: gold accent on hover ── */
+/* primary-button: gold accent on hover */
 .primary-button:hover {
   box-shadow: 0 18px 36px rgba(107, 63, 160, 0.28);
 }
 
-/* ── secondary-button: gold border ── */
+/* secondary-button: gold border */
 .secondary-button {
   border-color: rgba(107, 63, 160, 0.16);
 }
 
-/* ── category-pill: gold background ── */
+/* category-pill: gold background */
 .category-pill {
   background: rgba(200, 162, 75, 0.16);
   color: var(--color-purple);
   font-weight: 600;
 }
 
-/* ── timeline-card meta: gold year label ── */
 .timeline-card__meta {
   color: var(--color-gold);
 }
 
-/* ── section backgrounds: use the sage/lilac surface tokens ── */
+/* section backgrounds: lilac surface tokens */
 .home-stories-section,
 .home-purpose-section {
   background: linear-gradient(
