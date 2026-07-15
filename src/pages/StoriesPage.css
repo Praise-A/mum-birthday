@@ -1,0 +1,56 @@
+.story-article {
+  gap: 20px;
+}
+
+.story-article__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.story-article__excerpt {
+  font-size: 1.04rem;
+  color: var(--color-ink);
+}
+
+.story-article__pull-quote {
+  font-size: 1.08rem;
+}
+
+.story-article__body-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.story-article__body,
+.story-article__inline-quote,
+.story-article__subheading {
+  margin: 0;
+}
+
+.story-article__body {
+  color: var(--color-muted);
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.story-article__body--list {
+  padding-left: 8px;
+}
+
+.story-article__subheading {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.story-article__inline-quote {
+  padding-left: 16px;
+  border-left: 3px solid rgba(110, 71, 135, 0.24);
+  color: var(--color-purple);
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.8;
+}

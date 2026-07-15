@@ -6,10 +6,13 @@ const postsQuery = `
   *[_type == "post"] | order(coalesce(publishedAt, _createdAt) desc) {
     _id,
     title,
+    homeExcerpt,
     excerpt,
     pullQuote,
+    body,
     tag,
     isFeatured,
+    publishedAt,
     "slug": slug.current
   }
 `;
@@ -34,6 +37,17 @@ const tributeQuery = `
   }
 `;
 
+function normalizeStory(story, fallbackId) {
+  return {
+    ...story,
+    _id: story._id || fallbackId,
+    homeExcerpt: story.homeExcerpt || story.excerpt || "",
+    excerpt: story.excerpt || "",
+    pullQuote: story.pullQuote || "",
+    body: Array.isArray(story.body) ? story.body : [],
+  };
+}
+
 async function fetchSanityItems(query) {
   if (!sanityClient) {
     return [];
@@ -49,7 +63,11 @@ async function fetchSanityItems(query) {
 
 export async function fetchStoriesContent() {
   const cmsStories = await fetchSanityItems(postsQuery);
-  return cmsStories.length ? cmsStories : stories;
+  const sourceStories = cmsStories.length ? cmsStories : stories;
+
+  return sourceStories.map((story, index) =>
+    normalizeStory(story, `story-${index}`),
+  );
 }
 
 export async function fetchGalleryContent() {
@@ -73,4 +91,8 @@ export async function fetchApprovedTributesContent() {
   }
 
   return fallbackTributes;
+}
+
+export function getFeaturedHomeStory(items) {
+  return items.find((story) => story.isFeatured) || items[0] || null;
 }
