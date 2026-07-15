@@ -103,12 +103,22 @@
   border: 1px solid rgba(200, 162, 75, 0.2);
 }
 
-.tribute-card__image { 
-  width: 100%; 
-  max-height: 320px;
-  object-fit: cover;
-  border-radius: 18px; 
-  margin-top: 16px; 
+.tribute-card__media {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 18px;
   border: 1px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.tribute-card__image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 420px;
+  height: auto;
+  border-radius: 12px;
 }
 

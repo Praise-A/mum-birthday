@@ -29,6 +29,7 @@ import {
 import {
   fetchApprovedTributesContent,
   fetchGalleryContent,
+  getFeaturedHomeStory,
   fetchStoriesContent,
 } from "@/lib/sanity/content.js";
 
@@ -103,7 +104,7 @@ export default function Home() {
         }
 
         if (stories.length) {
-          const featured = stories.find((s) => s.isFeatured) || stories[0];
+          const featured = getFeaturedHomeStory(stories);
           setFeaturedStory(featured);
         }
 
@@ -312,10 +313,7 @@ export default function Home() {
                 <h3 className="content-title home-story-preview__title">
                   {featuredStory?.title}
                 </h3>
-                <p className="content-body">{featuredStory?.excerpt}</p>
-                <blockquote className="content-quote">
-                  {featuredStory?.pullQuote}
-                </blockquote>
+                <p className="content-body">{featuredStory?.homeExcerpt}</p>
               </div>
             </div>
             <Link to="/blog" className="ink-link">

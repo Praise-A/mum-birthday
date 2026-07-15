@@ -89,32 +89,104 @@ export const stories = [
   {
     slug: "the-way-she-made-home",
     title: "The way she made home feel larger than its walls",
+    homeExcerpt:
+      "How her warmth, routines, and open doors made people feel they belonged before they were even asked to sit down.",
     excerpt:
-      "A reflection on the rituals, open doors, and steady tenderness that made every visitor feel like family.",
+      "A fuller reflection on the rituals, open doors, and steady tenderness that made every visitor feel like family and turned ordinary days into safe memories.",
     pullQuote:
       "She never needed grand speeches to lead us. A hot meal and a listening ear were enough.",
     tag: "Family memory",
     isFeatured: true,
+    body: [
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Some people make a house feel warm because of the furniture inside it. She made ours feel warm because of the way she welcomed people, noticed their needs, and gave comfort without making a performance of it.",
+          },
+        ],
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Her care lived in the ordinary things: a meal kept aside, a question asked at the right moment, a room that somehow always had space for one more person. That steady generosity is part of the legacy this celebration is trying to honour.",
+          },
+        ],
+      },
+    ],
   },
   {
     slug: "her-elegance-in-hard-seasons",
     title: "Her elegance in hard seasons",
+    homeExcerpt:
+      "The calm courage she carried through difficult seasons, and the way it quietly steadied everyone around her.",
     excerpt:
-      "This story traces the calm courage she carried through uncertainty and how it taught everyone else to breathe.",
+      "This piece follows the dignity, composure, and quiet courage she carried through uncertainty, and how that strength taught everyone else to breathe more deeply.",
     pullQuote:
       "Even in difficult years, she dressed hope in dignity and kept showing up.",
     tag: "Legacy note",
     isFeatured: false,
+    body: [
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "There are people who only appear strong when life is easy. Her beauty was different. It stayed visible in seasons that asked for patience, faith, and resilience.",
+          },
+        ],
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "She kept showing up with grace, and that consistency gave the rest of the family language for endurance. Her life did not deny hardship. It taught us how to meet it with dignity.",
+          },
+        ],
+      },
+    ],
   },
   {
     slug: "laughter-after-sunday-lunch",
     title: "The laughter after Sunday lunch",
+    homeExcerpt:
+      "Kitchen music, teasing, and the easy joy she creates whenever everyone gathers close.",
     excerpt:
-      "A scrapbook-style memory of kitchen music, teasing, and the joy she keeps making look effortless.",
+      "A scrapbook-style memory of kitchen music, teasing, shared meals, and the kind of joy she has always made feel effortless and welcoming.",
     pullQuote:
       "If joy had a dining table, Mum would be the one calling everyone to sit closer.",
     tag: "Scrapbook moment",
     isFeatured: false,
+    body: [
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "Some of the best memories are not dramatic. They are the ones built around lunch, small jokes, familiar songs, and the slow refusal to let anyone leave too quickly.",
+          },
+        ],
+      },
+      {
+        _type: "block",
+        style: "normal",
+        children: [
+          {
+            _type: "span",
+            text: "She has a way of turning shared meals into shared affection. That is why even the smallest gathering around her can feel like a family celebration worth remembering.",
+          },
+        ],
+      },
+    ],
   },
 ];
 

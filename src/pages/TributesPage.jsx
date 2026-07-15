@@ -168,11 +168,15 @@ export default function TributesPage() {
           </div>
           <p className="content-body">{tribute.message}</p>
           {tribute.imageUrl && (
-            <img
-              className="tribute-card__image"
-              src={tribute.imageUrl}
-              alt={`${tribute.name} contribution`}
-            />
+            <div className="tribute-card__media">
+              <img
+                className="tribute-card__image"
+                src={tribute.imageUrl}
+                alt={`${tribute.name} contribution`}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           )}
         </article>
       ))}
